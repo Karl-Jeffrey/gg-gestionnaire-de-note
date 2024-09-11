@@ -23,10 +23,15 @@ function EditNoteDialog({ setOpen, note }: Props) {
 
   const handleEditNote = async (formData: FormData) => {
     startTransition(async () => {
-      const { errorMessage } = await editNoteAction(formData);
+      const noteId = formData.get("noteId") as string;
+      const newText = formData.get("text") as string;
+
+      // Appel à `editNoteAction` avec les deux arguments attendus
+      const { errorMessage } = await editNoteAction(Number(noteId), newText);
+
       if (!errorMessage) {
         setOpen(false);
-        toast.success("Successfully edited note");
+        toast.success("Note modifiée avec succès !");
       } else {
         toast.error(errorMessage);
       }
@@ -46,7 +51,7 @@ function EditNoteDialog({ setOpen, note }: Props) {
           className="mb-6 mt-2 min-h-[300px]"
         />
 
-        <input type="text" hidden name="noteId" value={note.id} />
+        <input type="hidden" name="noteId" value={note.id} />
 
         <DialogFooter>
           <Button

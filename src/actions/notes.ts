@@ -79,7 +79,7 @@ export const editNoteAction = async (noteId: number, newText: string) => {
 
     await db
       .update(notes)
-      .set({ text: newText, updatedAt: new Date() })
+      .set({ text: newText, updatedAt: new Date() }) // Met à jour le texte et la date de mise à jour
       .where(and(eq(notes.id, noteId), eq(notes.userId, user.id)));
 
     revalidatePath("/");
