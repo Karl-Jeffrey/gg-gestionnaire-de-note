@@ -13,13 +13,12 @@ export const addNewNoteAction = async (formData: FormData) => {
     const user = await getUser();
     const text = formData.get("text") as string;
 
-    // Ajout de la nouvelle note avec 'archived' par défaut à false
     await db.insert(notes).values({ text, userId: user.id, archived: false });
 
-    revalidatePath("/"); // Force la mise à jour de la page principale
-    return { errorMessage: null }; // Retourne null en cas de succès
+    revalidatePath("/");
+    return { errorMessage: null };
   } catch (error) {
-    return { errorMessage: getErrorMessage(error) }; // Retourne un message d'erreur en cas d'échec
+    return { errorMessage: getErrorMessage(error) };
   }
 };
 
@@ -30,13 +29,13 @@ export const archiveNoteAction = async (noteId: number) => {
 
     await db
       .update(notes)
-      .set({ archived: true }) // Met à jour la colonne 'archived' à true
+      .set({ archived: true })
       .where(and(eq(notes.id, noteId), eq(notes.userId, user.id)));
 
-    revalidatePath("/archive"); // Force la mise à jour de la page des archives
-    return { errorMessage: null }; // Retourne null en cas de succès
+    revalidatePath("/");
+    return { errorMessage: null };
   } catch (error) {
-    return { errorMessage: getErrorMessage(error) }; // Retourne un message d'erreur en cas d'échec
+    return { errorMessage: getErrorMessage(error) };
   }
 };
 
@@ -47,13 +46,13 @@ export const unarchiveNoteAction = async (noteId: number) => {
 
     await db
       .update(notes)
-      .set({ archived: false }) // Met à jour la colonne 'archived' à false
+      .set({ archived: false })
       .where(and(eq(notes.id, noteId), eq(notes.userId, user.id)));
 
-    revalidatePath("/archive"); // Force la mise à jour de la page des archives
-    return { errorMessage: null }; // Retourne null en cas de succès
+    revalidatePath("/archive");
+    return { errorMessage: null };
   } catch (error) {
-    return { errorMessage: getErrorMessage(error) }; // Retourne un message d'erreur en cas d'échec
+    return { errorMessage: getErrorMessage(error) };
   }
 };
 
@@ -66,9 +65,26 @@ export const deleteNoteAction = async (noteId: number) => {
       .delete(notes)
       .where(and(eq(notes.id, noteId), eq(notes.userId, user.id)));
 
-    revalidatePath("/"); // Force la mise à jour de la page principale après suppression
-    return { errorMessage: null }; // Retourne null en cas de succès
+    revalidatePath("/");
+    return { errorMessage: null };
   } catch (error) {
-    return { errorMessage: getErrorMessage(error) }; // Retourne un message d'erreur en cas d'échec
+    return { errorMessage: getErrorMessage(error) };
+  }
+};
+
+// Action pour éditer une note
+export const editNoteAction = async (noteId: number, newText: string) => {
+  try {
+    const user = await getUser();
+
+    await db
+      .update(notes)
+      .set({ text: newText, updatedAt: new Date() })
+      .where(and(eq(notes.id, noteId), eq(notes.userId, user.id)));
+
+    revalidatePath("/");
+    return { errorMessage: null };
+  } catch (error) {
+    return { errorMessage: getErrorMessage(error) };
   }
 };

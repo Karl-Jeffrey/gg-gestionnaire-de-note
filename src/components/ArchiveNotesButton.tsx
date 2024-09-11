@@ -5,17 +5,6 @@ import { Archive } from 'lucide-react';
 import { Note } from '@/db/schemas/notes';
 import { cn } from '@/lib/utils';
 import { archiveNoteAction } from '../actions/notes'; // Import de l'action d'archivage
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from './ui/alert-dialog';
 
 type Props = {
   note: Note;
@@ -55,27 +44,13 @@ function ArchiveButton({ note, onArchive }: Props) {
 
   return (
     <div>
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <button className={cn('text-muted-foreground size-5')} disabled={loading}>
-            <Archive />
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Archive Note</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to archive this note? You can restore it from the archive page.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleArchive}>
-              {loading ? 'Archiving...' : 'Archive'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <button
+        className={cn('text-muted-foreground size-5')}
+        onClick={handleArchive}
+        disabled={loading}
+      >
+        <Archive />
+      </button>
 
       {/* Notification affichée après l'archivage */}
       {message && (
