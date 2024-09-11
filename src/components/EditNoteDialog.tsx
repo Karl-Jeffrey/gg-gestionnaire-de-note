@@ -1,5 +1,6 @@
 "use client";
 
+
 import { editNoteAction } from "@/actions/notes";
 import { Note } from "@/db/schemas/notes";
 import { Dispatch, SetStateAction, useTransition } from "react";
