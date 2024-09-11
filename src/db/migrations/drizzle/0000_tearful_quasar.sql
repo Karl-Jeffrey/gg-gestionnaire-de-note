@@ -3,5 +3,7 @@ CREATE TABLE IF NOT EXISTS "notes" (
 	"user_id" text NOT NULL,
 	"text" text NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+
+
 );

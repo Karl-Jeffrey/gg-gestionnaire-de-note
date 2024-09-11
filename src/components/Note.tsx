@@ -3,6 +3,7 @@
 import { Note as NoteType } from "@/db/schemas/notes";
 import EditButton from "./EditButton";
 import DeleteButton from "./DeleteButton";
+import ArchiveNotesButton from "./ArchiveNotesButton";
 
 type Props = {
   note: NoteType;
@@ -15,7 +16,9 @@ function Note({ note }: Props) {
         <h2 className="text-muted-foreground text-lg font-semibold">
           {note.updatedAt.toISOString().slice(0, 10)}
         </h2>
-
+        <ArchiveNotesButton note={note} onArchive={function (noteId: number): void {
+          throw new Error("Function not implemented.");
+        } }/>
         <EditButton note={note} />
 
         <DeleteButton noteId={note.id} />
